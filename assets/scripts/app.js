@@ -21,9 +21,9 @@ function attackHandler() {
   if (playerDamage === 0) {
     alert('They missed!!');
   } else if (playerDamage === 1) {
-    alert('Ramsey sliced you for ' + damage + ' point of damage!');
+    alert('Ramsey sliced you for ' + playerDamage + ' point of damage!');
   } else {
-    alert('Ramsey sliced you for ' + damage + ' points of damage!');
+    alert('Ramsey sliced you for ' + playerDamage + ' points of damage!');
   }
   currentPlayerHealth -= playerDamage;
   if (currentMonsterHealth <= 0) {
