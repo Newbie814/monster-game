@@ -270,7 +270,12 @@ if (currentPlayerHealth >= chosenMaxLife - PLAYER_HEAL_VALUE) {
 }
 
 function printLogHandler() {
-  console.log(battleLog)
+  for (let i = 0; i < 4; i++) {
+    console.log('---------------')
+  }
+for (const log of battleLog) {
+  console.log(log)
+}
 }
 
 attackBtn.addEventListener('click', attackHandler);
