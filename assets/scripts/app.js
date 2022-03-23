@@ -3,151 +3,150 @@ const STRONG_ATTACK_VALUE = 17;
 const MONSTER_ATTACK_VALUE = 11;
 const PLAYER_HEAL_VALUE = 18;
 
-const ATTACK_MODE = 'ATTACK'
-const STRONG_ATTACK_MODE = 'STRONG_ATTACK'
-const LOG_EVENT_PLAYER_ATTACK = 'PLAYER_ATTACK'
-const LOG_EVENT_PLAYER_STRONG_ATTACK = 'PLAYER_STRONG_ATTACK'
-const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK'
-const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL'
-const LOG_EVENT_GAME_OVER = 'GAME_OVER'
+const ATTACK_MODE = 'ATTACK';
+const STRONG_ATTACK_MODE = 'STRONG_ATTACK';
+const LOG_EVENT_PLAYER_ATTACK = 'PLAYER_ATTACK';
+const LOG_EVENT_PLAYER_STRONG_ATTACK = 'PLAYER_STRONG_ATTACK';
+const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK';
+const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
+const LOG_EVENT_GAME_OVER = 'GAME_OVER';
 
-
-const enteredValue = prompt('Maximum life for you and the monster.', '100')
+const enteredValue = prompt('Maximum life for you and the monster.', '100');
 
 let chosenMaxLife = parseInt(enteredValue);
 
-let battleLog =[]
+let battleLog = [];
+
+let lastLoggedEntry;
 
 if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
-  chosenMaxLife = 100
+  chosenMaxLife = 100;
 }
 
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
-let hasBonusLife =true
+let hasBonusLife = true;
 
 adjustHealthBars(chosenMaxLife);
 
 function writeToLog(event, value, monsterHealth, playerHealth) {
- let logEntry;
+  let logEntry;
 
- logEntry = {
-  event: event,
-  value: value,
-  finalMonsterHealth: monsterHealth,
-  finalPlayerHealth: playerHealth
-}
+  logEntry = {
+    event: event,
+    value: value,
+    finalMonsterHealth: monsterHealth,
+    finalPlayerHealth: playerHealth,
+  };
 
-switch (event) {
-case  LOG_EVENT_PLAYER_ATTACK:
-  logEntry.target= 'MONSTER'
-  break;
-  case LOG_EVENT_PLAYER_STRONG_ATTACK:
-    logEntry = {
-      event: event,
-      value: value,
-      target: "MONSTER",
-      finalMonsterHealth: monsterHealth,
-      finalPlayerHealth: playerHealth
-    }
-    break;
+  switch (event) {
+    case LOG_EVENT_PLAYER_ATTACK:
+      logEntry.target = 'MONSTER';
+      break;
+    case LOG_EVENT_PLAYER_STRONG_ATTACK:
+      logEntry = {
+        event: event,
+        value: value,
+        target: 'MONSTER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth,
+      };
+      break;
     case LOG_EVENT_MONSTER_ATTACK:
       logEntry = {
         event: event,
         value: value,
-        target: "PLAYER",
+        target: 'PLAYER',
         finalMonsterHealth: monsterHealth,
-        finalPlayerHealth: playerHealth
-      }
+        finalPlayerHealth: playerHealth,
+      };
       break;
-      case LOG_EVENT_PLAYER_HEAL:
-        logEntry = {
-          event: event,
-          value: value,
-          target: "PLAYER",
-          finalMonsterHealth: monsterHealth,
-          finalPlayerHealth: playerHealth
-        }
-        break;
-        case LOG_EVENT_GAME_OVER:
-          logEntry = {
-            event: event,
-            value: value,
-            
-            finalMonsterHealth: monsterHealth,
-            finalPlayerHealth: playerHealth
-          }
+    case LOG_EVENT_PLAYER_HEAL:
+      logEntry = {
+        event: event,
+        value: value,
+        target: 'PLAYER',
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth,
+      };
+      break;
+    case LOG_EVENT_GAME_OVER:
+      logEntry = {
+        event: event,
+        value: value,
 
+        finalMonsterHealth: monsterHealth,
+        finalPlayerHealth: playerHealth,
+      };
+  }
 
+  // ==============================  translated the below if statement into the above switch case for practice ======================================
+
+  //  if (event === LOG_EVENT_PLAYER_ATTACK) {
+  //   logEntry.target= 'MONSTER'
+
+  //  } else if (event === LOG_EVENT_PLAYER_STRONG_ATTACK) {
+  //   logEntry = {
+  //     event: event,
+  //     value: value,
+  //     target: "MONSTER",
+  //     finalMonsterHealth: monsterHealth,
+  //     finalPlayerHealth: playerHealth
+  //   }
+
+  // } else if (event === LOG_EVENT_MONSTER_ATTACK) {
+  //   logEntry = {
+  //     event: event,
+  //     value: value,
+  //     target: "PLAYER",
+  //     finalMonsterHealth: monsterHealth,
+  //     finalPlayerHealth: playerHealth
+  //   }
+
+  // } else if (event === LOG_EVENT_PLAYER_HEAL) {
+  //   logEntry = {
+  //     event: event,
+  //     value: value,
+  //     target: "PLAYER",
+  //     finalMonsterHealth: monsterHealth,
+  //     finalPlayerHealth: playerHealth
+  //   }
+
+  // } else if (event === LOG_EVENT_GAME_OVER) {
+  //   logEntry = {
+  //     event: event,
+  //     value: value,
+
+  //     finalMonsterHealth: monsterHealth,
+  //     finalPlayerHealth: playerHealth
+  //   }
+
+  // }
+  battleLog.push(logEntry);
 }
-
-// ==============================  translated the below if statement into the above switch case for practice ======================================
-
-//  if (event === LOG_EVENT_PLAYER_ATTACK) {
-//   logEntry.target= 'MONSTER'
-   
-//  } else if (event === LOG_EVENT_PLAYER_STRONG_ATTACK) {
-//   logEntry = {
-//     event: event,
-//     value: value,
-//     target: "MONSTER",
-//     finalMonsterHealth: monsterHealth,
-//     finalPlayerHealth: playerHealth
-//   }
-  
-// } else if (event === LOG_EVENT_MONSTER_ATTACK) {
-//   logEntry = {
-//     event: event,
-//     value: value,
-//     target: "PLAYER",
-//     finalMonsterHealth: monsterHealth,
-//     finalPlayerHealth: playerHealth
-//   }
-  
-// } else if (event === LOG_EVENT_PLAYER_HEAL) {
-//   logEntry = {
-//     event: event,
-//     value: value,
-//     target: "PLAYER",
-//     finalMonsterHealth: monsterHealth,
-//     finalPlayerHealth: playerHealth
-//   }
-  
-// } else if (event === LOG_EVENT_GAME_OVER) {
-//   logEntry = {
-//     event: event,
-//     value: value,
-    
-//     finalMonsterHealth: monsterHealth,
-//     finalPlayerHealth: playerHealth
-//   }
-  
-// }
-battleLog.push(logEntry)
-}
-
 
 function reset() {
   currentMonsterHealth = chosenMaxLife;
- currentPlayerHealth = chosenMaxLife;
- resetGame()
+  currentPlayerHealth = chosenMaxLife;
+  resetGame();
 }
 
 function endRound() {
-  const initalPlayerHealth = currentPlayerHealth
+  const initalPlayerHealth = currentPlayerHealth;
   const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
   currentPlayerHealth -= playerDamage;
-  writeToLog(LOG_EVENT_MONSTER_ATTACK, 
-    playerDamage, 
-    currentMonsterHealth, 
-    currentPlayerHealth)
+  writeToLog(
+    LOG_EVENT_MONSTER_ATTACK,
+    playerDamage,
+    currentMonsterHealth,
+    currentPlayerHealth
+  );
 
   if (currentPlayerHealth <= 0 && hasBonusLife) {
-    hasBonusLife = false; 
+    hasBonusLife = false;
     removeBonusLife();
-      currentPlayerHealth = initalPlayerHealth;
-      setPlayerHealth(initalPlayerHealth)
-      ('You have invoked Soul Restore')
+    currentPlayerHealth = initalPlayerHealth;
+    setPlayerHealth(initalPlayerHealth)('You have invoked Soul Restore');
   }
   if (playerDamage === 0) {
     alert('They missed!!');
@@ -156,40 +155,43 @@ function endRound() {
   } else {
     alert('Ramsey sliced you for ' + playerDamage + ' points of damage!');
   }
-  
+
   if (currentMonsterHealth <= 0 && currentPlayerHealth > 0) {
     alert('You Won');
-    writeToLog(LOG_EVENT_GAME_OVER, 
-      'BROWNCOAT WON', 
-      currentMonsterHealth, 
-      currentPlayerHealth)
-  
+    writeToLog(
+      LOG_EVENT_GAME_OVER,
+      'BROWNCOAT WON',
+      currentMonsterHealth,
+      currentPlayerHealth
+    );
   } else if (currentPlayerHealth <= 0 && currentMonsterHealth > 0) {
     alert('You lost!');
 
-    writeToLog(LOG_EVENT_GAME_OVER, 
-      'THE ALLIANCE WON', 
-      currentMonsterHealth, 
-      currentPlayerHealth)
-    reset()
+    writeToLog(
+      LOG_EVENT_GAME_OVER,
+      'THE ALLIANCE WON',
+      currentMonsterHealth,
+      currentPlayerHealth
+    );
+    reset();
   } else if (currentPlayerHealth <= 0 && currentMonsterHealth <= 0) {
     alert("You're both dead!");
-    writeToLog(LOG_EVENT_GAME_OVER, 
-      'WE"RE ALL DEAD', 
-      currentMonsterHealth, 
-      currentPlayerHealth)
-    reset()
+    writeToLog(
+      LOG_EVENT_GAME_OVER,
+      'WE"RE ALL DEAD',
+      currentMonsterHealth,
+      currentPlayerHealth
+    );
+    reset();
   }
 }
 
 function attackMonster(mode) {
-  const maxDamage = mode === ATTACK_MODE
-   ? ATTACK_VALUE
-    : STRONG_ATTACK_VALUE
-  const logEvent = mode === ATTACK_MODE
-   ? LOG_EVENT_PLAYER_ATTACK 
-   : LOG_EVENT_PLAYER_STRONG_ATTACK
-
+  const maxDamage = mode === ATTACK_MODE ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+  const logEvent =
+    mode === ATTACK_MODE
+      ? LOG_EVENT_PLAYER_ATTACK
+      : LOG_EVENT_PLAYER_STRONG_ATTACK;
 
   // below code is the same as above. above I refactored with ternary operator
   // if (mode === ATTACK_MODE) {
@@ -208,10 +210,7 @@ function attackMonster(mode) {
     alert('You dropped ' + damage + ' points of damage on that beesh!');
   }
   currentMonsterHealth -= damage;
-  writeToLog(logEvent, 
-    damage, 
-    currentMonsterHealth, 
-    currentPlayerHealth)
+  writeToLog(logEvent, damage, currentMonsterHealth, currentPlayerHealth);
   // endRound();
 }
 
@@ -243,42 +242,62 @@ function attackHandler() {
   // } else if (currentPlayerHealth <= 0 && currentMonsterHealth <= 0) {
   //   alert("You're both dead!");
   // }
-  endRound()
+  endRound();
 }
 
 function strongAttackHandler() {
   attackMonster(STRONG_ATTACK_MODE);
-  endRound()
+  endRound();
 }
 
 function lazarusHandler() {
-let healValue;
-if (currentPlayerHealth >= chosenMaxLife - PLAYER_HEAL_VALUE) {
-  alert("You can't heal past your max health");
-  healValue = chosenMaxLife - currentPlayerHealth
-} else {
-  healValue = PLAYER_HEAL_VALUE
-}
+  let healValue;
+  if (currentPlayerHealth >= chosenMaxLife - PLAYER_HEAL_VALUE) {
+    alert("You can't heal past your max health");
+    healValue = chosenMaxLife - currentPlayerHealth;
+  } else {
+    healValue = PLAYER_HEAL_VALUE;
+  }
   increasePlayerHealth(PLAYER_HEAL_VALUE);
-  currentPlayerHealth += healValue
-  alert('You healed by ' + PLAYER_HEAL_VALUE + ' points')
-  writeToLog(LOG_EVENT_PLAYER_HEAL, 
-    healValue, 
-    currentMonsterHealth, 
-    currentPlayerHealth)
+  currentPlayerHealth += healValue;
+  alert('You healed by ' + PLAYER_HEAL_VALUE + ' points');
+  writeToLog(
+    LOG_EVENT_PLAYER_HEAL,
+    healValue,
+    currentMonsterHealth,
+    currentPlayerHealth
+  );
   endRound();
 }
 
 function printLogHandler() {
-  for (let i = 0; i < 4; i++) {
-    console.log('---------------')
+  for (let i = 0; i < 3; i++) {
+    console.log('---------------');
+    //  ^^^ only there to showcase the loop stopping after preset condition is met
   }
-for (const log of battleLog) {
-  console.log(log)
-}
+  let j = 3;
+  do {
+    console.log(j);
+    j++;
+  } while (j < 3);
+
+  let i = 0;
+  for (const log of battleLog) {
+    if ((!lastLoggedEntry && lastLoggedEntry !== 0) || lastLoggedEntry < i) {
+      console.log(`#${i}`);
+      for (const key in log) {
+        // not an arrow function just text printed in log for readability
+        console.log(`${key} => ${log[key]}`);
+      }
+      lastLoggedEntry = i;
+      break;
+    }
+
+    i++;
+  }
 }
 
 attackBtn.addEventListener('click', attackHandler);
 strongAttackBtn.addEventListener('click', strongAttackHandler);
 healBtn.addEventListener('click', lazarusHandler);
-logBtn.addEventListener('click', printLogHandler)
+logBtn.addEventListener('click', printLogHandler);
